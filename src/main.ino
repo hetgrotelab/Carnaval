@@ -67,7 +67,7 @@ String spreuken[7] =
   "FF lekker onthaasten",
   "Het is schrikkeljaar !!",
   "Hendrien Rules!!",
-  "Tot d'n hoogheid aonkomt"
+  "Tot d'n hoogheid aonkomt",
   "Prins Amadeiro etc. etc."
 };
 
