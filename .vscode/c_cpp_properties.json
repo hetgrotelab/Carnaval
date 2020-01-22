@@ -1,0 +1,63 @@
+{
+    "configurations": [
+        {
+            "name": "!!! WARNING !!! AUTO-GENERATED FILE, PLEASE DO NOT MODIFY IT AND USE https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "/home/iskander/Documents/PlatformIO/Projects/Carnaval/include",
+                "/home/iskander/Documents/PlatformIO/Projects/Carnaval/src",
+                "/home/iskander/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "/home/iskander/Documents/PlatformIO/Projects/Carnaval/lib/UTFT_Buttons",
+                "/home/iskander/Documents/PlatformIO/Projects/Carnaval/lib/UTFT",
+                "/home/iskander/Documents/PlatformIO/Projects/Carnaval/lib/URTouch",
+                "/home/iskander/.platformio/lib/TaskScheduler_ID721/src",
+                "/home/iskander/.platformio/lib/RTC_ID274/src",
+                "/home/iskander/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "/home/iskander/.platformio/packages/framework-arduino-avr/variants/mega",
+                "/home/iskander/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "/home/iskander/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "/home/iskander/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "/home/iskander/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "/home/iskander/.platformio/packages/tool-unity",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/home/iskander/Documents/PlatformIO/Projects/Carnaval/include",
+                    "/home/iskander/Documents/PlatformIO/Projects/Carnaval/src",
+                    "/home/iskander/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "/home/iskander/Documents/PlatformIO/Projects/Carnaval/lib/UTFT_Buttons",
+                    "/home/iskander/Documents/PlatformIO/Projects/Carnaval/lib/UTFT",
+                    "/home/iskander/Documents/PlatformIO/Projects/Carnaval/lib/URTouch",
+                    "/home/iskander/.platformio/lib/TaskScheduler_ID721/src",
+                    "/home/iskander/.platformio/lib/RTC_ID274/src",
+                    "/home/iskander/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "/home/iskander/.platformio/packages/framework-arduino-avr/variants/mega",
+                    "/home/iskander/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "/home/iskander/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "/home/iskander/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "/home/iskander/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    "/home/iskander/.platformio/packages/tool-unity",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=40100",
+                "ARDUINO_AVR_MEGA2560",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "__AVR_ATmega2560__",
+                ""
+            ],
+            "intelliSenseMode": "clang-x64",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "compilerPath": "\"/home/iskander/.platformio/packages/toolchain-atmelavr/bin/avr-gcc\" -mmcu=atmega2560"
+        }
+    ],
+    "version": 4
+}
