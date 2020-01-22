@@ -3,7 +3,6 @@
 #define _TASK_SLEEP_ON_IDLE_RUN // Enable 1 ms SLEEP_IDLE powerdowns between tasks if no callback methods were invoked during the pass
 #define _TASK_STATUS_REQUEST    // Compile with support for StatusRequest functionality - triggering tasks on status change events in addition to time only
 #include <TaskScheduler.h>
-#define T22_INIT (60000000L)          // Interval time for task t22 ( 1 minute)
 
 #include <UTFT.h>
 #include <URTouch.h>
@@ -15,8 +14,6 @@ RtcDS3231<TwoWire> Rtc(Wire);
 
 // Scheduler
 Scheduler ts;
-
-unsigned long t22_interval = T22_INIT;
 
 Task t1 (10 * TASK_SECOND, TASK_FOREVER, &displayTemperature, &ts, true);
 Task t2 (200 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeDate, &ts, true);
