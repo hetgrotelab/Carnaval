@@ -60,7 +60,7 @@ int flicker_length,hold_on,hold_off,flick_off = 100, flick_on = 100;
 // Global variables
 #define FET_PIN 7
 int itemNr = 0;       // Counter voor de actieve spreuk
-String spreuken[6] =
+String spreuken[7] =
 {
   "Tot CARNAVAL 2020",
   "Carnaval in Oeteldonk",
@@ -68,6 +68,7 @@ String spreuken[6] =
   "Het is schrikkeljaar !!",
   "Hendrien Rules!!",
   "Tot d'n hoogheid aonkomt"
+  "Prins Amadeiro etc. etc."
 };
 
 /**********************************************************************
