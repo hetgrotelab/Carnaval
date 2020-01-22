@@ -1,0 +1,56 @@
+void startinput()
+{
+
+        inputSG();
+        inputKG();
+        inputTAR();
+
+        myGLCD.printNumI(StartSG,40,40,0);
+        myGLCD.printNumI(StartKG,40,100,0);
+        myGLCD.printNumI(StartTAR,40,160,0);
+}
+
+
+void inputSG()
+{
+
+        myGLCD.clrScr();
+        myGLCD.setColor(VGA_WHITE);
+        myGLCD.setFont(BigFont);
+        myGLCD.print("Start SG",CENTER,0);
+        myGLCD.setColor(VGA_WHITE);
+        myGLCD.drawLine(0,20,230,20);
+        SGinput = true;
+        keypad();
+        SGinput = false;
+        StartSG = returnValue;
+        returnValue = 0;
+}
+
+void inputKG()
+{
+
+        myGLCD.clrScr();
+        myGLCD.setColor(VGA_WHITE);
+        myGLCD.setFont(BigFont);
+        myGLCD.print("Bruto (gr)",CENTER,0);
+        myGLCD.setColor(VGA_WHITE);
+        myGLCD.drawLine(0,20,230,20);
+        keypad();
+        StartKG = returnValue;
+        returnValue = 0;
+}
+
+void inputTAR()
+{
+
+        myGLCD.clrScr();
+        myGLCD.setColor(VGA_WHITE);
+        myGLCD.setFont(BigFont);
+        myGLCD.print("Tarra (gr)",CENTER,0);
+        myGLCD.setColor(VGA_WHITE);
+        myGLCD.drawLine(0,20,230,20);
+        keypad();
+        StartTAR = returnValue;
+        returnValue = 0;
+}
