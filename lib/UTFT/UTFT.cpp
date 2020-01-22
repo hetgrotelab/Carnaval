@@ -1092,7 +1092,7 @@ void UTFT::printNumF(double num, byte dec, int x, int y, char divider, int lengt
 
 	if (divider != '.')
 	{
-		for (int i=0; i<sizeof(st); i++)
+		for (unsigned int i=0; i<sizeof(st); i++)
 			if (st[i]=='.')
 				st[i]=divider;
 	}

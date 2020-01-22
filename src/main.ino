@@ -348,7 +348,7 @@ void setup()
   // Init RTC library
   Rtc.Begin();
   RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__);
-  int32_t compiledCorrected = compiled + 5; // Add a couple of seconds to compensate for upload/flash time
+  unsigned int compiledCorrected = compiled + 5; // Add a couple of seconds to compensate for upload/flash time
 
   // Check if the clock is working
   if (!Rtc.IsDateTimeValid())
