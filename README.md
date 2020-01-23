@@ -5,15 +5,15 @@ This code will project a countdown timer onto a Oeteldonkse Flag.
 If that's not wow-ing you enough, it will also animate a pink flamingo shaped light so it flickers like an old neon sign.
 Sorry for that, but we could not find a well lit unicorn.
 
-This otherwise totally pointless code is for our personal use only and not intended to be usefull for anyone else..
+This otherwise totally pointless code is for our personal use only and not intended to be useful for anyone else.
 
 License:
-----------------------------------------------------------------------------
+
 THE BEER-WARE LICENSE" (Revision 42):
 As long as you retain this notice you can do whatever you want with this
 stuff. If we meet some day, and you think this stuff is worth it,
 you can buy me a beer in return.
-----------------------------------------------------------------------------
+
 
 The mandatory disclaimer:
 
