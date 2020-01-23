@@ -7,7 +7,7 @@ Sorry for that, but we could not find a well lit unicorn.
 
 This otherwise totally pointless code is for our personal use only and not intended to be useful for anyone else.
 
-##License:
+## License: ##
 
 THE BEER-WARE LICENSE" (Revision 42):
 As long as you retain this notice you can do whatever you want with this
@@ -15,7 +15,7 @@ stuff. If we meet some day, and you think this stuff is worth it,
 you can buy me a beer in return.
 
 
-##The mandatory disclaimer:
+## The mandatory disclaimer: ##
 
 By Using this system you indicate your awareness of and consent to the terms and conditions of use.
 The user consents to such interception, monitoring, recording, copying, auditing,  inspection,
