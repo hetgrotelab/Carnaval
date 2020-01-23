@@ -7,11 +7,7 @@ Sorry for that, but we could not find a well lit unicorn.
 
 This otherwise totally pointless code is for our personal use only and not intended to be usefull for anyone else..
 
-<<<<<<< HEAD
-**License: **
-=======
-##**License: **##
->>>>>>> d09a6a2b6d11acb7b3a17507cc5d3e5af91305c5
+##**License: **
 ----------------------------------------------------------------------------
 "THE BEER-WARE LICENSE" (Revision 42):
 As long as you retain this notice you can do whatever you want with this
@@ -19,11 +15,7 @@ stuff. If we meet some day, and you think this stuff is worth it,
 you can buy me a beer in return.
 ----------------------------------------------------------------------------
 
-<<<<<<< HEAD
-**The mandatory disclaimer: **
-=======
-##**The mandatory disclaimer: **##
->>>>>>> d09a6a2b6d11acb7b3a17507cc5d3e5af91305c5
+##**The mandatory disclaimer: **
 
 By Using this system you indicate your awareness of and consent to the terms and conditions of use.
 The user consents to such interception, monitoring, recording, copying, auditing,  inspection,
