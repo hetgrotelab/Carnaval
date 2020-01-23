@@ -1,21 +1,21 @@
 
 
-This code will project a countdown timer onto a <a href="https://www.oeteldonk.org/"><img src="https://mlakk8tvna3j.i.optimole.com/w:247/h:282/q:auto/rt:fill/g:ce/https://oeteldonksjaal.nl/wp-content/uploads/2018/09/oeteldonksche-vlag.jpg" title="Oeteldonkse vlag"></a> flag.
+This code will project a countdown timer onto a Oeteldonkse Flag.
 
 If that's not wow-ing you enough, it will also animate a pink flamingo shaped light so it flickers like an old neon sign.
 Sorry for that, but we could not find a well lit unicorn.
 
 This otherwise totally pointless code is for our personal use only and not intended to be usefull for anyone else..
 
-##**License: **
+##License:
 ----------------------------------------------------------------------------
-"THE BEER-WARE LICENSE" (Revision 42):
+THE BEER-WARE LICENSE" (Revision 42):
 As long as you retain this notice you can do whatever you want with this
 stuff. If we meet some day, and you think this stuff is worth it,
 you can buy me a beer in return.
 ----------------------------------------------------------------------------
 
-##**The mandatory disclaimer: **
+##The mandatory disclaimer:
 
 By Using this system you indicate your awareness of and consent to the terms and conditions of use.
 The user consents to such interception, monitoring, recording, copying, auditing,  inspection,
