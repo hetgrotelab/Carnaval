@@ -288,6 +288,11 @@ void rtcCheck()   // TODO return error code and use in setup()
   }
 }
 
+void rtcResetClock()
+{
+  RtcDateTime timeReset = RtcDateTime("Jan 01 2010", "11:11:00");  // Set the magic date and time
+  Rtc.SetDateTime(timeReset);
+}
 void blinkBuiltinLed()
 {
   digitalWrite(LED_BUILTIN, true);
@@ -347,8 +352,11 @@ void setup()
 
   // Init RTC library
   Rtc.Begin();
+
+  //rtcResetClock();
+
   RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__);
-  unsigned int compiledCorrected = compiled + 5; // Add a couple of seconds to compensate for upload/flash time
+  uint32_t compiledCorrected = compiled; // Add a couple of seconds to compensate for upload/flash time
 
   // Check if the clock is working
   if (!Rtc.IsDateTimeValid())
