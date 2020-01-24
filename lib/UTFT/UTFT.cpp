@@ -1102,13 +1102,13 @@ void UTFT::printNumF(double num, byte dec, int x, int y, char divider, int lengt
 		if (neg)
 		{
 			st[0]='-';
-			for (int i=1; i<sizeof(st); i++)
+			for (unsigned int i=1; i<sizeof(st); i++)
 				if ((st[i]==' ') || (st[i]=='-'))
 					st[i]=filler;
 		}
 		else
 		{
-			for (int i=0; i<sizeof(st); i++)
+			for (unsigned int i=0; i<sizeof(st); i++)
 				if (st[i]==' ')
 					st[i]=filler;
 		}

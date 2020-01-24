@@ -196,7 +196,7 @@ void UTFT_Buttons::deleteAllButtons()
 		buttons[i].width=0;
 		buttons[i].height=0;
 		buttons[i].flags=BUTTON_UNUSED;
-		buttons[i].label="";
+		buttons[i].label=(char *)"";
 	}
 }
 
@@ -205,9 +205,9 @@ int UTFT_Buttons::checkButtons()
     if (_URTouch->dataAvailable() == true)
     {
 		_URTouch->read();
-		int		result = -1;
-		int		touch_x = _URTouch->getX();
-		int		touch_y = _URTouch->getY();
+		int			result = -1;
+		uint16_t	touch_x = _URTouch->getX();
+		uint16_t	touch_y = _URTouch->getY();
 		word	_current_color = _UTFT->getColor();
   
 		for (int i=0;i<MAX_BUTTONS;i++)
