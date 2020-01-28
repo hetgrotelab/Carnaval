@@ -43,9 +43,10 @@ extern uint8_t Dingbats1_XL[];
 UTFT myGLCD(ITDB32S, 38, 39, 40, 41);   // a 3.2" TFT LCD Screen module, 320*240 (resolution), 65K color
 URTouch myTouch(6,5,4,3,2);
 UTFT_Buttons myButtons(&myGLCD, &myTouch);
-extern unsigned short frog[3600];     // define the frog image
+//extern unsigned short frog[3600];     // define the frog image
+extern unsigned short frog[];
 
-// declaration of variables for flickering of the flamingo
+// declaration of variables for flickering of the beautifull pink flamingo
 const int max_flicker_time = 100;
 const int min_flicker_time = 100;
 const int max_flicker_length = 100;
