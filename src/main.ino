@@ -1,3 +1,4 @@
+#include <avr/pgmspace.h>
 #include <Arduino.h>
 
 #define _TASK_SLEEP_ON_IDLE_RUN // Enable 1 ms SLEEP_IDLE powerdowns between tasks if no callback methods were invoked during the pass
@@ -42,6 +43,7 @@ extern uint8_t Dingbats1_XL[];
 UTFT myGLCD(ITDB32S, 38, 39, 40, 41);   // a 3.2" TFT LCD Screen module, 320*240 (resolution), 65K color
 URTouch myTouch(6,5,4,3,2);
 UTFT_Buttons myButtons(&myGLCD, &myTouch);
+extern unsigned short frog[3600];     // define the frog image
 
 // declaration of variables for flickering of the flamingo
 const int max_flicker_time = 100;
@@ -52,7 +54,6 @@ const int off_variation_offset = 100;
 
 int but1, but2, but3, pressed_button;
 int flicker_length,hold_on,hold_off,flick_off = 100, flick_on = 100;
-
 
 // Global variables
 #define FET_PIN 7
@@ -98,7 +99,7 @@ String formatDate(const RtcDateTime& dt)
 /**********************************************************************
  * Functions: display
  **********************************************************************/
- void Knoppies()
+ void placeButtons()
  {
  but1 = myButtons.addButton( 0, 0, 239, 105,(char *)"");
  but2 = myButtons.addButton( 0,106,239,106,(char *)"");
@@ -124,6 +125,7 @@ void scanScreen()
     if (pressed_button==but2)
     {
       Serial.println(" Button2 !!");
+      myGLCD.drawBitmap (90,130, 60, 60, frog);
     }
     if (pressed_button==but3)
     {
@@ -435,7 +437,7 @@ void setup()
   myGLCD.clrScr();
   myTouch.InitTouch(PORTRAIT);
   myTouch.setPrecision(PREC_MEDIUM);
-  Knoppies();
+  placeButtons();
   // Say bootup hello ;)
   // blinkFetLed();
 
