@@ -18,6 +18,7 @@ Scheduler ts;
 Task t1 (10 * TASK_SECOND, TASK_FOREVER, &displayTemperature, &ts, true);
 Task t2 (200 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeDate, &ts, true);
 Task t3 (5 * TASK_SECOND, TASK_FOREVER, &displayBannerTextNext, &ts, true);
+Task t4 (100 * TASK_MILLISECOND, TASK_FOREVER, &scanScreen, &ts, true);
 //Task t11 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyWeeks, &ts, true);
 //Task t12 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyDays, &ts, true);
 Task t13 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyHours, &ts, true);
@@ -35,17 +36,12 @@ RtcDateTime epochPartyTime = RtcDateTime("Feb 23 2020", "11:11:00");  // Set the
 extern uint8_t BigFont[];
 extern uint8_t SevenSegNumFont[];
 extern uint8_t SmallFont[];
+extern uint8_t Dingbats1_XL[];
 
 // TFT display/button stuff
 UTFT myGLCD(ITDB32S, 38, 39, 40, 41);   // a 3.2" TFT LCD Screen module, 320*240 (resolution), 65K color
 URTouch myTouch(6,5,4,3,2);
 UTFT_Buttons myButtons(&myGLCD, &myTouch);
-
-int x, y;
-int but1,but2,but3,but4,but5,but6,but7,but8,but9,but10,start1, start2,start3,start4, butClr, butEnt, pressed_button;
-char stCurrent[10] = "";
-int stCurrentLen = 0;
-char stLast[10] = "";
 
 // declaration of variables for flickering of the flamingo
 const int max_flicker_time = 100;
@@ -54,6 +50,7 @@ const int max_flicker_length = 100;
 const int min_flicker_length = 100;
 const int off_variation_offset = 100;
 
+int but1, but2, but3, pressed_button;
 int flicker_length,hold_on,hold_off,flick_off = 100, flick_on = 100;
 
 
@@ -101,6 +98,40 @@ String formatDate(const RtcDateTime& dt)
 /**********************************************************************
  * Functions: display
  **********************************************************************/
+ void Knoppies()
+ {
+ but1 = myButtons.addButton( 0, 0, 239, 105,(char *)"");
+ but2 = myButtons.addButton( 0,106,239,106,(char *)"");
+ but3 = myButtons.addButton( 0,213,239,106,(char *)"");
+ myButtons.drawButtons();
+ }
+
+void scanScreen()
+{
+  if (myTouch.dataAvailable() == true)
+  {
+    pressed_button = myButtons.checkButtons();
+    if (pressed_button==but1)
+    {
+      myGLCD.setBackColor(255,255,255);
+      myGLCD.setColor(0,0,0);
+      Serial.println(" Button1 !!");
+      myGLCD.setFont(SevenSegNumFont);
+      myGLCD.print(F("   "), CENTER, 132);
+      myGLCD.setFont(Dingbats1_XL);
+      myGLCD.print(F("@"), CENTER, 132);
+    }
+    if (pressed_button==but2)
+    {
+      Serial.println(" Button2 !!");
+    }
+    if (pressed_button==but3)
+    {
+      Serial.println(" Button3 !!");
+    }
+}
+}
+
 void displayFlagOeteldonk()
 {
   myGLCD.setColor(255,0,0);
@@ -404,7 +435,7 @@ void setup()
   myGLCD.clrScr();
   myTouch.InitTouch(PORTRAIT);
   myTouch.setPrecision(PREC_MEDIUM);
-
+  Knoppies();
   // Say bootup hello ;)
   // blinkFetLed();
 
