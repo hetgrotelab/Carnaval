@@ -115,6 +115,8 @@ void scanScreen()
     pressed_button = myButtons.checkButtons();
     if (pressed_button==but1)
     {
+      Serial.println(" Button2 !!");
+      myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
       myGLCD.setBackColor(255,255,255);
       myGLCD.setColor(0,0,0);
       Serial.println(" Button1 !!");
@@ -126,11 +128,16 @@ void scanScreen()
     if (pressed_button==but2)
     {
       Serial.println(" Button2 !!");
+      myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
+      myGLCD.setBackColor(255,255,255);
       myGLCD.drawBitmap (90,130, 60, 60, frog);
     }
     if (pressed_button==but3)
     {
       Serial.println(" Button3 !!");
+      myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
+      myGLCD.setBackColor(255,255,255);
+      displayTimeUntilPartyHours();
     }
 }
 }
@@ -212,7 +219,8 @@ void displayTimeUntilPartyHours()
 {
   RtcDateTime now = Rtc.GetDateTime();
   int32_t hoursToGo = ((epochPartyTime - now) / 3600);  // Devide by one hour
-
+  myGLCD.setColor(255,255,255);
+  myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
   myGLCD.setBackColor(255,255,255);
   myGLCD.setColor(0,0,0);
   myGLCD.setFont(SevenSegNumFont);
