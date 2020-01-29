@@ -13,6 +13,16 @@
 #include <RtcDS3231.h>
 RtcDS3231<TwoWire> Rtc(Wire);
 
+// include and define for SD card
+#include <SD.h>                      // need to include the SD library
+#define SD_ChipSelectPin 53          // SS pin 53 on Mega2560
+
+// includes needed for audio OUTPUT
+#include <TMRpcm.h>                  //  PCM playing library...
+#include <SPI.h>
+
+TMRpcm audio;   // create an object for playing audio
+
 // Scheduler
 Scheduler ts;
 
@@ -131,6 +141,7 @@ void scanScreen()
       myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
       myGLCD.setBackColor(255,255,255);
       myGLCD.drawBitmap (90,130, 60, 60, frog);
+      audio.play("frog.wav"); //the sound file "frog.wav" will play
     }
     if (pressed_button==but3)
     {
@@ -446,6 +457,21 @@ void setup()
   myGLCD.clrScr();
   myTouch.InitTouch(PORTRAIT);
   myTouch.setPrecision(PREC_MEDIUM);
+
+  // Init audio
+  audio.speakerPin = 11; //5,6,11 or 46 on Mega, 9 on Uno, Nano, etc
+  audio.setVolume(7);    //   0 to 7. Set volume level
+
+  // Check if the SD card is working
+  if (!SD.begin(SD_ChipSelectPin)) {  // see if the card is present and can be initialized:
+    Serial.println("SD fail");
+    return;   // don't do anything more if not
+  }
+  else{
+    Serial.println("SD ok");
+  }
+
+  // Put flag, text and time on display
   placeButtons();
   // Say bootup hello ;)
   // blinkFetLed();
