@@ -20,8 +20,9 @@ RtcDS3231<TwoWire> Rtc(Wire);
 // includes needed for audio OUTPUT
 #include <TMRpcm.h>                  //  PCM playing library...
 #include <SPI.h>
+#define laudSpeakerPin 11
 
-TMRpcm audio;   // create an object for playing audio
+TMRpcm audio;                        // create an object for playing audio
 
 // Scheduler
 Scheduler ts;
@@ -30,15 +31,14 @@ Task t1 (10 * TASK_SECOND, TASK_FOREVER, &displayTemperature, &ts, true);
 Task t2 (200 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeDate, &ts, true);
 Task t3 (5 * TASK_SECOND, TASK_FOREVER, &displayBannerTextNext, &ts, true);
 Task t4 (100 * TASK_MILLISECOND, TASK_FOREVER, &scanScreen, &ts, true);
-//Task t11 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyWeeks, &ts, true);
-//Task t12 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyDays, &ts, true);
-Task t13 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyHours, &ts, true);
-//Task t14 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartyMinutes, &ts, true);
-//Task t15 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartySeconds, &ts, true);
-//Task t16 (1 * TASK_SECOND, TASK_FOREVER, &displayTimeUntilPartyFull, &ts, true);
+Task t11 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyWeeks, &ts, true);
+Task t12 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyDays, &ts, false);
+Task t13 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyHours, &ts, false);
+Task t14 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartyMinutes, &ts, false);
+Task t15 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartySeconds, &ts, false);
+Task t16 (1 * TASK_SECOND, TASK_FOREVER, &displayTimeUntilPartyFull, &ts, false);
 //Task t21 (1 * TASK_MINUTE, TASK_FOREVER, &blinkBuiltinLed, &ts, true);
 Task t22 (1 * TASK_MINUTE, TASK_FOREVER, &blinkFetLed, &ts, true);
-
 
 // RTC stuff
 #define countof(a) (sizeof(a) / sizeof(a[0])) // Used to get the array size
@@ -141,16 +141,19 @@ void scanScreen()
       myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
       myGLCD.setBackColor(255,255,255);
       myGLCD.drawBitmap (90,130, 60, 60, frog);
-      audio.play("frog.wav"); //the sound file "frog.wav" will play
+      audio.play("frog.wav");     //the sound file "frog.wav" will play
+      //audio.play((char *)"grenouille.wav");     //the sound file "frog.wav" will play
     }
     if (pressed_button==but3)
     {
       Serial.println(" Button3 !!");
       myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
       myGLCD.setBackColor(255,255,255);
-      displayTimeUntilPartyHours();
+      //displayTimeUntilPartyHours();
+      t11.disable();
+      t13.enable();
     }
-}
+  }
 }
 
 void displayFlagOeteldonk()
@@ -346,6 +349,7 @@ void rtcResetClock()
   RtcDateTime timeReset = RtcDateTime("Jan 01 2010", "11:11:00");  // Set the magic date and time
   Rtc.SetDateTime(timeReset);
 }
+
 void blinkBuiltinLed()
 {
   digitalWrite(LED_BUILTIN, true);
@@ -407,9 +411,8 @@ void setup()
   Rtc.Begin();
 
   //rtcResetClock();
-
   RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__);
-  uint32_t compiledCorrected = compiled; // Add a couple of seconds to compensate for upload/flash time
+  uint32_t compiledCorrected = compiled + 5; // Add a couple of seconds to compensate for upload/flash time
 
   // Check if the clock is working
   if (!Rtc.IsDateTimeValid())
@@ -459,8 +462,9 @@ void setup()
   myTouch.setPrecision(PREC_MEDIUM);
 
   // Init audio
-  audio.speakerPin = 11; //5,6,11 or 46 on Mega, 9 on Uno, Nano, etc
-  audio.setVolume(7);    //   0 to 7. Set volume level
+  //pinMode(laudSpeakerPin, OUTPUT);
+  audio.speakerPin = laudSpeakerPin; //5,6,11 or 46 on Mega, 9 on Uno, Nano, etc
+  audio.setVolume(5);    //   0 to 7. Set volume level
 
   // Check if the SD card is working
   if (!SD.begin(SD_ChipSelectPin)) {  // see if the card is present and can be initialized:
