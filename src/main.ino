@@ -21,8 +21,12 @@ RtcDS3231<TwoWire> Rtc(Wire);
 #include <TMRpcm.h>                  //  PCM playing library...
 #include <SPI.h>
 #define laudSpeakerPin 11
-
 TMRpcm audio;                        // create an object for playing audio
+
+// includes and variables needed for alarm
+const byte interruptPin = 13;
+volatile bool alarm = 0;
+
 
 // Scheduler
 Scheduler ts;
@@ -39,6 +43,7 @@ Task t15 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartySeconds, &
 Task t16 (1 * TASK_SECOND, TASK_FOREVER, &displayTimeUntilPartyFull, &ts, false);
 //Task t21 (1 * TASK_MINUTE, TASK_FOREVER, &blinkBuiltinLed, &ts, true);
 Task t22 (1 * TASK_MINUTE, TASK_FOREVER, &blinkFetLed, &ts, true);
+Task t30 (1 * TASK_SECOND, TASK_FOREVER, &checkAlarm, &ts, true);
 
 // RTC stuff
 #define countof(a) (sizeof(a) / sizeof(a[0])) // Used to get the array size
@@ -53,8 +58,10 @@ extern uint8_t Dingbats1_XL[];
 UTFT myGLCD(ITDB32S, 38, 39, 40, 41);   // a 3.2" TFT LCD Screen module, 320*240 (resolution), 65K color
 URTouch myTouch(6,5,4,3,2);
 UTFT_Buttons myButtons(&myGLCD, &myTouch);
-//extern unsigned short frog[3600];     // define the frog image
+// extern unsigned short frog[3600];     // define frog image (60x60)
+// extern unsigned short oeteldonk[10160]; // define oeteldonk image(80x127)
 extern unsigned short frog[];
+extern unsigned short oeteldonk[];
 
 // declaration of variables for flickering of the beautifull pink flamingo
 const int max_flicker_time = 100;
@@ -128,12 +135,14 @@ void scanScreen()
       Serial.println(" Button2 !!");
       myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
       myGLCD.setBackColor(255,255,255);
-      myGLCD.setColor(0,0,0);
-      Serial.println(" Button1 !!");
-      myGLCD.setFont(SevenSegNumFont);
-      myGLCD.print(F("   "), CENTER, 132);
-      myGLCD.setFont(Dingbats1_XL);
-      myGLCD.print(F("@"), CENTER, 132);
+      myGLCD.drawBitmap (90,130, 80, 45, oeteldonk);
+      audio.play("anousjka.wav");     //the sound file "frog.wav" will play
+//      myGLCD.setColor(0,0,0);
+//      Serial.println(" Button1 !!");
+//      myGLCD.setFont(SevenSegNumFont);
+//      myGLCD.print(F("   "), CENTER, 132);
+//      myGLCD.setFont(Dingbats1_XL);
+//      myGLCD.print(F("@"), CENTER, 132);
     }
     if (pressed_button==but2)
     {
@@ -379,6 +388,24 @@ delay(hold_off); // how long to wait before next startup attempt
 analogWrite(FET_PIN, 10);
 }
 
+
+//Some functions needed for Alarm
+void handleAlarm() {
+  alarm = false;
+  audio.play("siren.wav");     //the sound file "frog.wav" will play
+  Rtc.LatchAlarmsTriggeredFlags();
+}
+
+void handleInterrupt() {
+   alarm = true;
+}
+
+void checkAlarm(){
+  if (alarm == true) {
+  handleAlarm();
+  }
+}
+
 /*
 void blinkFetLed()
 {
@@ -453,7 +480,20 @@ void setup()
   }
   // Set the clock to the needed state
   Rtc.Enable32kHzPin(false);
-  Rtc.SetSquareWavePin(DS3231SquareWavePin_ModeNone);
+  //Rtc.SetSquareWavePin(DS3231SquareWavePin_ModeNone);
+
+  // Settings for alarm
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), handleInterrupt, FALLING);
+  Rtc.SetSquareWavePin(DS3231SquareWavePin_ModeAlarmOne);
+  DS3231AlarmOne alarm1(
+    0,
+    11,
+    11,
+    00,
+  DS3231AlarmOneControl_HoursMinutesSecondsMatch);
+  Rtc.SetAlarmOne(alarm1);
+  Rtc.LatchAlarmsTriggeredFlags();
 
   // Init LCD and touch screen
   myGLCD.InitLCD(PORTRAIT);
