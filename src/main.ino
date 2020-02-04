@@ -86,6 +86,13 @@ String spreuken[7] =
   "Tot d'n hoogheid aonkomt",
   "Prins Amadeiro etc. etc."
 };
+int liedNr = 0;       // Counter voor liedjes
+String liedjes[3] =
+{
+  "anoesjka.wav",
+  "lekker.wav",
+  "vingers.wav"
+};
 
 /**********************************************************************
  * Functions: string formating
@@ -136,13 +143,9 @@ void scanScreen()
       myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
       myGLCD.setBackColor(255,255,255);
       myGLCD.drawBitmap (90,130, 80, 45, oeteldonk);
-      audio.play("anoesjka.wav");     //the sound file "frog.wav" will play
-//      myGLCD.setColor(0,0,0);
-//      Serial.println(" Button1 !!");
-//      myGLCD.setFont(SevenSegNumFont);
-//      myGLCD.print(F("   "), CENTER, 132);
-//      myGLCD.setFont(Dingbats1_XL);
-//      myGLCD.print(F("@"), CENTER, 132);
+      audio.play("anoesjka.wav");
+//      audio.play(playSong);
+//      liedNr = ((liedNr + 1) % countof(liedjes));
     }
     if (pressed_button==but2)
     {
