@@ -42,7 +42,7 @@ Task t14 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartyMinutes, &
 Task t15 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartySeconds, &ts, false);
 Task t16 (1 * TASK_SECOND, TASK_FOREVER, &displayTimeUntilPartyFull, &ts, false);
 //Task t21 (1 * TASK_MINUTE, TASK_FOREVER, &blinkBuiltinLed, &ts, true);
-Task t22 (1 * TASK_MINUTE, TASK_FOREVER, &blinkFetLed, &ts, true);
+// Task t22 (1 * TASK_MINUTE, TASK_FOREVER, &blinkFetLed, &ts, true);
 Task t30 (1 * TASK_SECOND, TASK_FOREVER, &checkAlarm, &ts, true);
 
 // RTC stuff
