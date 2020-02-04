@@ -219,7 +219,7 @@ void displayTimeUntilPartyWeeks()
 
   myGLCD.setColor(255,255,255);
   myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
-  myGLCD.setBackColor(255,255,255);
+  myGLCD.setBackColor(255,255,0);
   myGLCD.setColor(0,0,0);
   myGLCD.setFont(BigFont);
   myGLCD.print(F("WEKEN"), CENTER, 240);
