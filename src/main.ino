@@ -144,7 +144,7 @@ void scanScreen()
       myGLCD.setBackColor(255,255,255);
       myGLCD.drawBitmap (90,130, 80, 45, oeteldonk);
 //      audio.play("anoesjka.wav");
-      audio.play(liedjes[liedNr],10);
+      audio.play(liedjes[liedNr]);
       liedNr = ((liedNr + 1) % countof(liedjes));
     }
     if (pressed_button==but2)
@@ -159,12 +159,7 @@ void scanScreen()
     if (pressed_button==but3)
     {
       Serial.println(" Button2 !!");
-      myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
-      myGLCD.setBackColor(255,255,255);
-      myGLCD.drawBitmap (90,130, 80, 45, oeteldonk);
-//      audio.play("anoesjka.wav");
-      audio.play(liedjes[liedNr]);
-      liedNr = ((liedNr + 1) % countof(liedjes));
+      audio.disable();
       t11.disable();
       t13.enable();
     }
