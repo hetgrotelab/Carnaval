@@ -158,7 +158,7 @@ void scanScreen()
     }
     if (pressed_button==but3)
     {
-      Serial.println(" Button2 !!");
+      Serial.println(" Button3 !!");
       audio.disable();
       t11.disable();
       t13.enable();
@@ -222,7 +222,7 @@ void displayTimeUntilPartyWeeks()
   myGLCD.setBackColor(255,255,0);
   myGLCD.setColor(0,0,0);
   myGLCD.setFont(BigFont);
-  myGLCD.print(F("WEKEN"), CENTER, 240);
+  myGLCD.print(F("   WEKEN   "), CENTER, 240);
 }
 
 void displayTimeUntilPartyDays()
@@ -238,7 +238,7 @@ void displayTimeUntilPartyDays()
   myGLCD.setBackColor(255,255,0);
   myGLCD.setColor(0,0,0);
   myGLCD.setFont(BigFont);
-  myGLCD.print(F("DAGEN"), CENTER, 240);
+  myGLCD.print(F("   DAGEN   "), CENTER, 240);
 }
 
 void displayTimeUntilPartyHours()
@@ -255,7 +255,7 @@ void displayTimeUntilPartyHours()
   myGLCD.setBackColor(255,255,0);
   myGLCD.setColor(0,0,0);
   myGLCD.setFont(BigFont);
-  myGLCD.print(F("UUR"), CENTER, 240);
+  myGLCD.print(F("    UUR    "), CENTER, 240);
 }
 
 void displayTimeUntilPartyMinutes()
@@ -271,7 +271,7 @@ void displayTimeUntilPartyMinutes()
   myGLCD.setBackColor(255,255,0);
   myGLCD.setColor(0,0,0);
   myGLCD.setFont(BigFont);
-  myGLCD.print(F("Minuten"), CENTER, 240);
+  myGLCD.print(F("  Minuten  "), CENTER, 240);
 }
 
 void displayTimeUntilPartySeconds()
@@ -287,7 +287,7 @@ void displayTimeUntilPartySeconds()
   myGLCD.setBackColor(255,255,0);
   myGLCD.setColor(0,0,0);
   myGLCD.setFont(BigFont);
-  myGLCD.print(F("Seconden"), CENTER, 240);
+  myGLCD.print(F(" Seconden "), CENTER, 240);
 }
 
 void displayTimeUntilPartyFull()
