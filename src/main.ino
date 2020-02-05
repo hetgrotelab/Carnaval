@@ -35,7 +35,7 @@ Task t1 (10 * TASK_SECOND, TASK_FOREVER, &displayTemperature, &ts, true);
 Task t2 (200 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeDate, &ts, true);
 Task t3 (5 * TASK_SECOND, TASK_FOREVER, &displayBannerTextNext, &ts, true);
 Task t4 (100 * TASK_MILLISECOND, TASK_FOREVER, &scanScreen, &ts, true);
-Task t11 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyWeeks, &ts, true);
+Task t11 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyWeeks, &ts, false);
 Task t12 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyDays, &ts, false);
 Task t13 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyHours, &ts, false);
 Task t14 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartyMinutes, &ts, false);
@@ -86,6 +86,7 @@ String spreuken[7] =
   "Tot d'n hoogheid aonkomt",
   "Prins Amadeiro etc. etc."
 };
+
 int liedNr = 0;       // Counter voor liedjes
 char *liedjes[3] =
 {
@@ -93,6 +94,8 @@ char *liedjes[3] =
   "lekker.wav",
   "vingers.wav"
 };
+
+int timeItem = 0;     // Counter voor tijdweergave
 
 /**********************************************************************
  * Functions: string formating
@@ -159,9 +162,48 @@ void scanScreen()
     if (pressed_button==but3)
     {
       Serial.println(" Button3 !!");
+
+      myGLCD.setColor(255,255,255);
+      myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
+
+      switch (timeItem)
+      {
+      case 0:
+        t16.disable();
+        t11.enable();
+        break;
+      
+      case 1:
+        t11.disable();
+        t12.enable();
+        break;
+      
+      case 2:
+        t12.disable();
+        t13.enable();
+        break;
+      
+      case 3:
+        t13.disable();
+        t14.enable();
+        break;
+      
+      case 4:
+        t14.disable();
+        t15.enable();
+        break;
+      
+      case 5:
+        t15.disable();
+        t16.enable();
+        break;
+      
+      default:
+        break;
+      }
+      timeItem = ((timeItem + 1) % 6);    // 6 Tasks are defined
       audio.disable();
-      t11.disable();
-      t13.enable();
+
     }
   }
 }
@@ -245,8 +287,7 @@ void displayTimeUntilPartyHours()
 {
   RtcDateTime now = Rtc.GetDateTime();
   int32_t hoursToGo = ((epochPartyTime - now) / 3600);  // Devide by one hour
-  myGLCD.setColor(255,255,255);
-  myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
+
   myGLCD.setBackColor(255,255,255);
   myGLCD.setColor(0,0,0);
   myGLCD.setFont(SevenSegNumFont);
