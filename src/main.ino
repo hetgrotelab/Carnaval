@@ -42,7 +42,7 @@ Task t14 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartyMinutes, &
 Task t15 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartySeconds, &ts, false);
 Task t16 (1 * TASK_SECOND, TASK_FOREVER, &displayTimeUntilPartyFull, &ts, false);
 //Task t21 (1 * TASK_MINUTE, TASK_FOREVER, &blinkBuiltinLed, &ts, true);
-// Task t22 (1 * TASK_MINUTE, TASK_FOREVER, &blinkFetLed, &ts, true);
+Task t22 (1 * TASK_MINUTE, TASK_FOREVER, &blinkFetLed, &ts, true);
 Task t30 (1 * TASK_SECOND, TASK_FOREVER, &checkAlarm, &ts, true);
 
 // RTC stuff
@@ -388,7 +388,7 @@ for (int i = 0; i < flicker_length; i++)
 delay(hold_on); // Loop ends with on so this delay then decides sucess hold
 digitalWrite(FET_PIN,0); // This is then the faliure
 delay(hold_off); // how long to wait before next startup attempt
-analogWrite(FET_PIN, 10);
+// analogWrite(FET_PIN, 10);
 }
 
 
