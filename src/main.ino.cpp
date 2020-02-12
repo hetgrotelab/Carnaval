@@ -1,34 +1,58 @@
+# 1 "/tmp/tmpA4gsq0"
+#include <Arduino.h>
+# 1 "/home/edwin/Documents/PlatformIO/Projects/carnaval/src/main.ino"
 #include <avr/pgmspace.h>
 #include <Arduino.h>
 
-#define _TASK_SLEEP_ON_IDLE_RUN // Enable 1 ms SLEEP_IDLE powerdowns between tasks if no callback methods were invoked during the pass
-#define _TASK_STATUS_REQUEST    // Compile with support for StatusRequest functionality - triggering tasks on status change events in addition to time only
+#define _TASK_SLEEP_ON_IDLE_RUN 
+#define _TASK_STATUS_REQUEST 
 #include <TaskScheduler.h>
 
 #include <UTFT.h>
 #include <URTouch.h>
 #include <UTFT_Buttons.h>
 
-#include <Wire.h> // must be included before RtcDS3231.h so that Arduino library object file references work
+#include <Wire.h>
 #include <RtcDS3231.h>
 RtcDS3231<TwoWire> Rtc(Wire);
 
-// include and define for SD card
-#include <SD.h>                      // need to include the SD library
-#define SD_ChipSelectPin 53          // SS pin 53 on Mega2560
 
-// includes needed for audio OUTPUT
-#include <TMRpcm.h>                  //  PCM playing library...
+#include <SD.h>
+#define SD_ChipSelectPin 53
+
+
+#include <TMRpcm.h>
 #include <SPI.h>
 #define laudSpeakerPin 11
-TMRpcm audio;                        // create an object for playing audio
+TMRpcm audio;
 
-// includes and variables needed for alarm
+
 bool alarmOnce = false;
 
-// Scheduler
-Scheduler ts;
 
+Scheduler ts;
+String formatTime(const RtcDateTime& dt);
+String formatDate(const RtcDateTime& dt);
+void scanScreen();
+void displayFlagOeteldonk();
+void displayBasicText();
+void displayTimeDate();
+void displayTemperature();
+void displayTimeUntilPartyWeeks();
+void displayTimeUntilPartyDays();
+void displayTimeUntilPartyHours();
+void displayTimeUntilPartyMinutes();
+void displayTimeUntilPartySeconds();
+void displayTimeUntilPartyFull();
+void displayBannerTextNext();
+void rtcCheck();
+void rtcResetClock();
+void blinkBuiltinLed();
+void elfUuurelf();
+void blinkFetLed();
+void setup();
+void loop();
+#line 32 "/home/edwin/Documents/PlatformIO/Projects/carnaval/src/main.ino"
 Task t1 (10 * TASK_SECOND, TASK_FOREVER, &displayTemperature, &ts, true);
 Task t2 (200 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeDate, &ts, true);
 Task t3 (5 * TASK_SECOND, TASK_FOREVER, &displayBannerTextNext, &ts, true);
@@ -39,30 +63,30 @@ Task t13 (1 * TASK_MINUTE, TASK_FOREVER, &displayTimeUntilPartyHours, &ts, false
 Task t14 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartyMinutes, &ts, false);
 Task t15 (500 * TASK_MILLISECOND, TASK_FOREVER, &displayTimeUntilPartySeconds, &ts, false);
 Task t16 (1 * TASK_SECOND, TASK_FOREVER, &displayTimeUntilPartyFull, &ts, false);
-//Task t21 (1 * TASK_MINUTE, TASK_FOREVER, &blinkBuiltinLed, &ts, true);
+
 Task t22 (1 * TASK_MINUTE, TASK_FOREVER, &blinkFetLed, &ts, true);
 Task t23 (2 * TASK_MINUTE, TASK_FOREVER, &elfUuurelf, &ts, true);
 
 
-// RTC stuff
-#define countof(a) (sizeof(a) / sizeof(a[0])) // Used to get the array size
-RtcDateTime epochPartyTime = RtcDateTime("Feb 23 2020", "11:11:00");  // Set the magic date and time
+
+#define countof(a) (sizeof(a) / sizeof(a[0]))
+RtcDateTime epochPartyTime = RtcDateTime("Feb 23 2020", "11:11:00");
 
 extern uint8_t BigFont[];
 extern uint8_t SevenSegNumFont[];
 extern uint8_t SmallFont[];
 extern uint8_t Dingbats1_XL[];
 
-// TFT display/button stuff
-UTFT myGLCD(ITDB32S, 38, 39, 40, 41);   // a 3.2" TFT LCD Screen module, 320*240 (resolution), 65K color
+
+UTFT myGLCD(ITDB32S, 38, 39, 40, 41);
 URTouch myTouch(6,5,4,3,2);
 UTFT_Buttons myButtons(&myGLCD, &myTouch);
-// extern unsigned short frog[3600];     // define frog image (60x60)
-// extern unsigned short oeteldonk[10160]; // define oeteldonk image(80x127)
+
+
 extern unsigned short frog[];
 extern unsigned short oeteldonk[];
 
-// declaration of variables for flickering of the beautifull pink flamingo
+
 const int max_flicker_time = 100;
 const int min_flicker_time = 100;
 const int max_flicker_length = 100;
@@ -72,9 +96,9 @@ const int off_variation_offset = 100;
 int but1, but2, but3, pressed_button;
 int flicker_length,hold_on,hold_off,flick_off = 100, flick_on = 100;
 
-// Global variables
+
 #define FET_PIN 7
-int itemNr = 0;       // Counter voor de actieve spreuk
+int itemNr = 0;
 String spreuken[7] =
 {
   "Tot CARNAVAL 2020",
@@ -86,7 +110,7 @@ String spreuken[7] =
   "Prins Amadeiro etc. etc."
 };
 
-int liedNr = 0;       // Counter voor liedjes
+int liedNr = 0;
 char *liedjes[3] =
 {
   "anoesjka.wav",
@@ -94,11 +118,11 @@ char *liedjes[3] =
   "vingers.wav"
 };
 
-int timeItem = 0;     // Counter voor tijdweergave
+int timeItem = 0;
 
-/**********************************************************************
- * Functions: string formating
- **********************************************************************/
+
+
+
 String formatTime(const RtcDateTime& dt)
 {
   char datestring[9];
@@ -123,9 +147,9 @@ String formatDate(const RtcDateTime& dt)
   return datestring;
 }
 
-/**********************************************************************
- * Functions: display
- **********************************************************************/
+
+
+
  void placeButtons()
  {
  but1 = myButtons.addButton( 0, 0, 239, 105,(char *)"");
@@ -142,28 +166,28 @@ void scanScreen()
     if (pressed_button==but1)
     {
       Serial.println(" Button2 !!");
-      myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
+      myGLCD.fillRect(0,106,239,212);
       myGLCD.setBackColor(255,255,255);
       myGLCD.drawBitmap (90,130, 80, 45, oeteldonk);
-//      audio.play("anoesjka.wav");
+
       audio.play(liedjes[liedNr]);
       liedNr = ((liedNr + 1) % countof(liedjes));
     }
     if (pressed_button==but2)
     {
       Serial.println(" Button2 !!");
-      myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
+      myGLCD.fillRect(0,106,239,212);
       myGLCD.setBackColor(255,255,255);
       myGLCD.drawBitmap (90,130, 60, 60, frog);
-      audio.play("frog.wav");     //the sound file "frog.wav" will play
-      //audio.play((char *)"grenouille.wav");     //the sound file "frog.wav" will play
+      audio.play("frog.wav");
+
     }
     if (pressed_button==but3)
     {
       Serial.println(" Button3 !!");
       audio.play("siren.wav");
       myGLCD.setColor(255,255,255);
-      myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
+      myGLCD.fillRect(0,106,239,212);
 
       switch (timeItem)
       {
@@ -200,7 +224,7 @@ void scanScreen()
       default:
         break;
       }
-      timeItem = ((timeItem + 1) % 6);    // 6 Tasks are defined
+      timeItem = ((timeItem + 1) % 6);
       audio.disable();
 
     }
@@ -251,7 +275,7 @@ void displayTemperature()
 void displayTimeUntilPartyWeeks()
 {
   RtcDateTime now = Rtc.GetDateTime();
-  int32_t weeksToGo = ((epochPartyTime - now) / 604800);  // Devide by one week
+  int32_t weeksToGo = ((epochPartyTime - now) / 604800);
 
   myGLCD.setBackColor(255,255,255);
   myGLCD.setColor(0,0,0);
@@ -269,7 +293,7 @@ void displayTimeUntilPartyWeeks()
 void displayTimeUntilPartyDays()
 {
   RtcDateTime now = Rtc.GetDateTime();
-  int32_t daysToGo = ((epochPartyTime - now) / 86400);  // Devide by one day
+  int32_t daysToGo = ((epochPartyTime - now) / 86400);
 
   myGLCD.setBackColor(255,255,255);
   myGLCD.setColor(0,0,0);
@@ -285,7 +309,7 @@ void displayTimeUntilPartyDays()
 void displayTimeUntilPartyHours()
 {
   RtcDateTime now = Rtc.GetDateTime();
-  int32_t hoursToGo = ((epochPartyTime - now) / 3600);  // Devide by one hour
+  int32_t hoursToGo = ((epochPartyTime - now) / 3600);
 
   myGLCD.setBackColor(255,255,255);
   myGLCD.setColor(0,0,0);
@@ -301,7 +325,7 @@ void displayTimeUntilPartyHours()
 void displayTimeUntilPartyMinutes()
 {
   RtcDateTime now = Rtc.GetDateTime();
-  int32_t minutesToGo = ((epochPartyTime - now) / 60);  // Devide by one hour
+  int32_t minutesToGo = ((epochPartyTime - now) / 60);
 
   myGLCD.setBackColor(255,255,255);
   myGLCD.setColor(0,0,0);
@@ -334,9 +358,9 @@ void displayTimeUntilPartyFull()
 {
   RtcDateTime now = Rtc.GetDateTime();
   int32_t secondsToGo = (epochPartyTime - now);
-  int32_t minutesToGo = (secondsToGo / 60);  // Devide by one min
-  int32_t hoursToGo = (minutesToGo / 60);  // Devide by one hour
-  int32_t daysToGo = (hoursToGo / 24);  // Devide by one day
+  int32_t minutesToGo = (secondsToGo / 60);
+  int32_t hoursToGo = (minutesToGo / 60);
+  int32_t daysToGo = (hoursToGo / 24);
 
   myGLCD.setBackColor(255,255,255);
   myGLCD.setColor(0,0,0);
@@ -372,15 +396,15 @@ void displayBannerTextNext()
   myGLCD.setFont(SmallFont);
   myGLCD.print(F("                            "), CENTER, 300);
   myGLCD.print(spreuken[itemNr], CENTER, 300);
-  //itemNr = ((itemNr + 1) % spreukenNr);
+
   itemNr = ((itemNr + 1) % countof(spreuken));
 }
 
 
-/**********************************************************************
- * Functions
- **********************************************************************/
-void rtcCheck()   // TODO return error code and use in setup()
+
+
+
+void rtcCheck()
 {
   if (!Rtc.IsDateTimeValid())
   {
@@ -398,7 +422,7 @@ void rtcCheck()   // TODO return error code and use in setup()
 
 void rtcResetClock()
 {
-  RtcDateTime timeReset = RtcDateTime("Jan 01 2010", "11:11:00");  // Set the magic date and time
+  RtcDateTime timeReset = RtcDateTime("Jan 01 2010", "11:11:00");
   Rtc.SetDateTime(timeReset);
 }
 
@@ -423,7 +447,7 @@ void elfUuurelf(){
 
 void blinkFetLed()
 {
-flicker_length = random(10,20); // min and max flicker loop length
+flicker_length = random(10,20);
 hold_on = random(500,800);
 hold_off = random(800,1000);
 
@@ -433,32 +457,15 @@ for (int i = 0; i < flicker_length; i++)
     delay(flick_off);
     analogWrite(FET_PIN,100);
     delay(flick_on);
-    flick_off = random(100,200);  //on and off varies during loop
-    flick_on = random(50,100);   // Unsure if this adds noticable time to the flicker on
+    flick_off = random(100,200);
+    flick_on = random(50,100);
   }
-delay(hold_on); // Loop ends with on so this delay then decides sucess hold
-digitalWrite(FET_PIN,0); // This is then the faliure
-delay(hold_off); // how long to wait before next startup attempt
-// analogWrite(FET_PIN, 10);
-}
+delay(hold_on);
+digitalWrite(FET_PIN,0);
+delay(hold_off);
 
-
-/*
-void blinkFetLed()
-{
-  for (int i = 0; i < 2; i++)
-  {
-    digitalWrite(FET_PIN, true);
-    delay(200);
-    digitalWrite(FET_PIN, false);
-    delay(200);
-  }
-  analogWrite(FET_PIN, 10);
 }
-*/
-/**********************************************************************
- * Setup
- **********************************************************************/
+# 462 "/home/edwin/Documents/PlatformIO/Projects/carnaval/src/main.ino"
 void setup()
 {
   Serial.begin(115200);
@@ -471,14 +478,14 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(FET_PIN, OUTPUT);
 
-  // Init RTC library
+
   Rtc.Begin();
 
-  //rtcResetClock();
-  RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__);
-  uint32_t compiledCorrected = compiled + 5; // Add a couple of seconds to compensate for upload/flash time
 
-  // Check if the clock is working
+  RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__);
+  uint32_t compiledCorrected = compiled + 5;
+
+
   if (!Rtc.IsDateTimeValid())
   {
     if (Rtc.LastError() != 0)
@@ -493,14 +500,14 @@ void setup()
     }
   }
 
-  // Be sure the clock is running
+
   if (!Rtc.GetIsRunning())
   {
     Serial.println(F("RTC was not actively running, starting now"));
     Rtc.SetIsRunning(true);
   }
 
-  // Be sure the clock has a 'semi valid' date/time. if not, set compile time
+
   RtcDateTime now = Rtc.GetDateTime();
   if (now < compiledCorrected)
   {
@@ -515,45 +522,45 @@ void setup()
   {
     Serial.println(F("RTC is the same as compile time! (not expected but all is fine)"));
   }
-  // Set the clock to the needed state
+
   Rtc.Enable32kHzPin(false);
   Rtc.SetSquareWavePin(DS3231SquareWavePin_ModeNone);
 
-  // Init LCD and touch screen
+
   myGLCD.InitLCD(PORTRAIT);
   myGLCD.clrScr();
   myTouch.InitTouch(PORTRAIT);
   myTouch.setPrecision(PREC_MEDIUM);
 
-  // Init audio
-  //pinMode(laudSpeakerPin, OUTPUT);
-  audio.speakerPin = laudSpeakerPin; //5,6,11 or 46 on Mega, 9 on Uno, Nano, etc
-  audio.setVolume(5);    //   0 to 7. Set volume level
 
-  // Check if the SD card is working
-  if (!SD.begin(SD_ChipSelectPin)) {  // see if the card is present and can be initialized:
+
+  audio.speakerPin = laudSpeakerPin;
+  audio.setVolume(5);
+
+
+  if (!SD.begin(SD_ChipSelectPin)) {
     Serial.println("SD fail");
-    return;   // don't do anything more if not
+    return;
   }
   else{
     Serial.println("SD ok");
   }
 
-  // Put flag, text and time on display
-  placeButtons();
-  // Say bootup hello ;)
-  // blinkFetLed();
 
-  // Display basic default stuff
+  placeButtons();
+
+
+
+
   displayFlagOeteldonk();
   displayBasicText();
 }
 
-/**********************************************************************
- * Main loop, start the scheduler and run forrest, run
- **********************************************************************/
+
+
+
 void loop()
 {
-  // rtcCheck();
+
   ts.execute();
 }
