@@ -209,7 +209,7 @@ void scanScreen()
         break;
       }
       timeItem = ((timeItem + 1) % 6);    // 6 Tasks are defined
-      audio.disable();
+      //audio.disable();
 
     }
   }
