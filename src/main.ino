@@ -74,6 +74,7 @@ int flicker_length,hold_on,hold_off,flick_off = 100, flick_on = 100;
 
 // Global variables
 #define FET_PIN 7
+
 int itemNr = 0;       // Counter voor de actieve spreuk
 String spreuken[7] =
 {
@@ -92,6 +93,12 @@ char *liedjes[3] =
   "anoesjka.wav",
   "lekker.wav",
   "vingers.wav"
+};
+
+char *kikkers[] =
+{
+  "frog.wav",
+  "grenouille.wav",
 };
 
 int timeItem = 0;     // Counter voor tijdweergave
@@ -152,10 +159,11 @@ void scanScreen()
     if (pressed_button==but2)
     {
       Serial.println(" Button2 !!");
-      myGLCD.fillRect(0,106,239,212);     // restore white part of the flag
+      myGLCD.fillRect(0,106,239,212);      // restore white part of the flag
       myGLCD.setBackColor(255,255,255);
       myGLCD.drawBitmap (90,130, 60, 60, frog);
-      audio.play("frog.wav");     //the sound file "frog.wav" will play
+      audio.play(kikkers[random(1)]);   // play random frog between index 0 and 1
+      //audio.play("frog.wav");     //the sound file "frog.wav" will play
       //audio.play((char *)"grenouille.wav");     //the sound file "frog.wav" will play
     }
     if (pressed_button==but3)
